@@ -67,8 +67,16 @@
             </ul>
         </div>
     </nav>
+
     <!-- javascript -->
-    <script src="index.js"></script>
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const links = document.querySelector('.links');
+
+        navToggle.addEventListener('click', () => {
+            links.classList.toggle('show-links');
+        });
+    </script>
 </body>
 
 </html>
