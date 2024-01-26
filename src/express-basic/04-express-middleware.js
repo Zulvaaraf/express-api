@@ -9,7 +9,18 @@ const app = express();
 // options - custom middleware / express middleware / third-party middleware
 
 // app.use([logger, authorize]);
+
+// static file
 // app.use(express.static('./public));
+
+// parse form data
+// app.use(express.urlencoded({ extended: false }));
+
+// parse json
+// app.use(express.json());
+
+// route
+// app.use('/api/people', router);
 
 app.get('/', (req, res) => {
   res.send('home');

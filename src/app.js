@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import router from './routes/routes.js';
 
 dotenv.config();
 
@@ -14,10 +15,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
+// static file
+app.use(express.static('../02-browser-app'));
+// parse form data
+app.use(express.urlencoded({ extended: false }));
+// parse json
+app.use(express.json());
+// Router
+app.use('/api/people', router);
+
 app.get('/', (req, res) => {
-  res.send({
-    message: 'haloo',
-  });
+  res.send('halooo');
 });
 
 app.listen(PORT, () => {

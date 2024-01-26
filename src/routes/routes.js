@@ -1,17 +1,9 @@
 import express from 'express';
 import { people } from '../data.js';
 
-const app = express();
+const router = express.Router();
 
-// static file
-app.use(express.static('../02-browser-app'));
-// parse form data
-app.use(express.urlencoded({ extended: false }));
-// parse json
-app.use(express.json());
-
-// POST METHOD
-app.post('/api/people', (req, res) => {
+router.post('/', (req, res) => {
   const { id, name } = req.body;
 
   const personId = { id, name };
@@ -31,16 +23,14 @@ app.post('/api/people', (req, res) => {
   });
 });
 
-// GET METHOD
-app.get('/api/people', (req, res) => {
+router.get('/', (req, res) => {
   res.status(200).send({
     status: 'success',
     data: people,
   });
 });
 
-// GET METHOD with ID
-app.get('/api/people/:peopleId', (req, res) => {
+router.get('/:peopleId', (req, res) => {
   const { peopleId } = req.params;
 
   const peopleID = people.find((people) => people.id === Number(peopleId));
@@ -60,8 +50,7 @@ app.get('/api/people/:peopleId', (req, res) => {
   });
 });
 
-// PUT METHOD
-app.put('/api/people/:peopleId', (req, res) => {
+router.put('/:peopleId', (req, res) => {
   const { peopleId } = req.params;
   const { name } = req.body;
 
@@ -90,7 +79,7 @@ app.put('/api/people/:peopleId', (req, res) => {
   });
 });
 
-app.delete('/api/people/:peopleId', (req, res) => {
+router.delete('/:peopleId', (req, res) => {
   const { peopleID } = req.params;
   const index = people.find((person) => person.id === Number(peopleID));
 
@@ -111,6 +100,4 @@ app.delete('/api/people/:peopleId', (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log(`express server running on http://localhost:5000`);
-});
+export default router;
