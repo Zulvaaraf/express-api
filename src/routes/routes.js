@@ -9,13 +9,13 @@ router.post('/', (req, res) => {
   const personId = { id, name };
 
   if (!personId) {
-    return res.status(400).send({
+    return res.status(400).json({
       status: 'fail',
-      message: 'Gagal menambahkan people',
+      message: 'Gagal menambahkan data person',
     });
   }
 
-  return res.status(201).send({
+  return res.status(200).json({
     status: 'success',
     data: {
       personId,
@@ -24,9 +24,11 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  res.status(200).send({
+  return res.status(200).json({
     status: 'success',
-    data: people,
+    data: {
+      people,
+    },
   });
 });
 
@@ -36,13 +38,13 @@ router.get('/:peopleId', (req, res) => {
   const peopleID = people.find((people) => people.id === Number(peopleId));
 
   if (!peopleID) {
-    return res.status(404).send({
+    return res.status(404).json({
       status: 'fail',
-      message: 'Gagal! peopleId tidak ditemukan',
+      message: 'Gagal! id tidak ditemukan',
     });
   }
 
-  return res.status(200).send({
+  return res.status(200).json({
     status: 'success',
     data: {
       peopleID,
@@ -54,25 +56,25 @@ router.put('/:peopleId', (req, res) => {
   const { peopleId } = req.params;
   const { name } = req.body;
 
-  const searchPeople = people.find((person) => person.id === Number(peopleId));
+  const findPeople = people.find((people) => people.id === Number(peopleId));
 
-  if (!searchPeople) {
+  if (!findPeople) {
     return res.status(404).json({
       status: 'fail',
-      message: 'Gagal! people tidak ditemukan',
+      message: 'Gagal! id tidak ditemukan',
     });
   }
 
-  const newPeople = people.map((person) => {
-    if (person.id === Number(peopleId)) {
-      person.name = name;
+  const newPeople = people.map((people) => {
+    if (people.id === Number(peopleId)) {
+      people.name = name;
     }
 
-    return person;
+    return people;
   });
 
   return res.status(200).json({
-    status: 'success',
+    status: 'fail',
     data: {
       newPeople,
     },
@@ -80,22 +82,21 @@ router.put('/:peopleId', (req, res) => {
 });
 
 router.delete('/:peopleId', (req, res) => {
-  const { peopleID } = req.params;
-  const index = people.find((person) => person.id === Number(peopleID));
+  const { peopleId } = req.params;
 
-  if (index === -1) {
+  const findIndex = people.findIndex((people) => people.id === Number(peopleId));
+
+  if (findIndex === -1) {
     return res.status(404).json({
       status: 'fail',
-      message: 'Gagal! Id tidak ditemukan',
+      message: 'Gagal! id tidak ditemukan',
     });
   } else {
-    people.splice(index, 1);
+    people.splice(findIndex, 1);
+
     return res.status(200).json({
       status: 'success',
-      message: 'Berhasil dihapuss',
-      data: {
-        people,
-      },
+      message: 'Berhasil dihapus',
     });
   }
 });
