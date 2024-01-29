@@ -1,4 +1,4 @@
-import { people } from '../data.js';
+import { people } from '../data/data.js';
 
 const postPeopleHandler = (req, res) => {
   const { id, name } = req.body;
